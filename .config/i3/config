@@ -329,6 +329,7 @@ assign [class="(?i)firefox"] $ws2
 assign [class="Thunar"] $ws3
 assign [class="thunderbird"] $ws4
 assign [class="steam"] $ws6
+assign [class="Blender"] $ws7
 
 # automatic set focus new window if it opens on another workspace than the current:
 for_window [class=alacritty] focus
@@ -336,6 +337,7 @@ for_window [class=(?i)firefox] focus
 for_window [class=Thunar] focus
 for_window [class=Thunderbird] focus
 for_window [class=steam] focus
+for_window [class=Blender] focus
 
 ##############
 # compositor #

@@ -6,7 +6,7 @@ return {
 
         -- adding linters to filetypes
         lint.linters_by_ft = {
-            python = { 'pylint' },
+--            python = { 'ruff' },
             --lua = { 'luacheck' },
             cpp = { 'cpplint' },
             java = { 'checkstyle' },

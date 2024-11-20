@@ -29,7 +29,9 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "pyright",
+--                "pylsp",
                 "clangd",
+--                "ruff_lsp",
 --                "jdtls",
             },
             -- auto-install configured servers (with lspconfig)
@@ -41,7 +43,8 @@ return {
                 "prettier", -- prettier formatter
                 --"luacheck",
                 "cpplint",
-                "pylint",
+--                "pylint",
+                "ruff",
                 "checkstyle",
             },
         })

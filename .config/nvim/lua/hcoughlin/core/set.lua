@@ -44,3 +44,85 @@ vim.keymap.set('n', '<leader>ut', vim.cmd.UndotreeToggle)
 --vim.g.have_nerd_font = true
 
 --vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, { desc = "opens split w/ locations for diagnostic messages" })
+
+-- Create an autocmd for C/C++ files
+-- vim.api.nvim_create_autocmd("FileType", {
+--     pattern = { "c", "cpp" },
+--     callback = function()
+--         -- Set the key mapping for block comment
+--         vim.keymap.set('n', '<leader>bc', function()
+--             vim.api.nvim_put({ '/**', ' * ', ' */' }, 'l', true, true)
+--             vim.cmd('normal! kA')
+--         end, { buffer = true, noremap = true, silent = true })
+--     end,
+-- })
+-- Create an autocmd for C/C++ files
+-- vim.api.nvim_create_autocmd("FileType", {
+--     pattern = { "c", "cpp" },
+--     callback = function()
+--         -- Set the key mapping for block comment
+--         vim.keymap.set('n', '<leader>bc', function()
+--             -- Save current cursor position
+--             local cursor_pos = vim.api.nvim_win_get_cursor(0)
+--             -- Insert the block comment lines
+--             vim.api.nvim_put({ '/**', ' * ', ' */' }, 'l', true, true)
+--             -- Restore the cursor to the second line (' * ') and move to the end of the line in insert mode
+--             vim.api.nvim_win_set_cursor(0, {cursor_pos[1] + 1, 3}) -- Set cursor to ' * ' line, at the end of ' * '
+--             vim.cmd('startinsert!') -- Enter insert mode
+--         end, { buffer = true, noremap = true, silent = true })
+--     end,
+-- })
+-- Create an autocmd for C/C++ files
+-- vim.api.nvim_create_autocmd("FileType", {
+--     pattern = { "c", "cpp" },
+--     callback = function()
+--         -- Set the key mapping for block comment
+--         vim.keymap.set('n', '<leader>bc', function()
+--             -- Insert the block comment lines
+--             vim.api.nvim_put({ '/**', ' * ', ' */' }, 'l', true, true)
+--             -- Move the cursor to the middle line (2nd line) after the ' * ' and enter insert mode
+--             local current_row = vim.api.nvim_win_get_cursor(0)[1] -- Get current row
+--             vim.api.nvim_win_set_cursor(0, {current_row - 1, 3})  -- Move to the 2nd line, after '* '
+--             vim.cmd('startinsert!') -- Enter insert mode
+--         end, { buffer = true, noremap = true, silent = true })
+--     end,
+-- })
+-- Create an autocmd for C/C++ files
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "c", "cpp" },
+    callback = function()
+        -- Set the key mapping for block comment
+        vim.keymap.set('n', '<leader>bc', function()
+            -- Get the current row where the cursor is located before inserting the comment
+            local current_row = vim.api.nvim_win_get_cursor(0)[1]
+
+            -- Function to find the indentation of the nearest previous indented line
+            local function get_nearest_indent()
+                for i = current_row - 1, 1, -1 do
+                    local line_indent = vim.fn.indent(i)
+                    if line_indent > 0 then
+                        return line_indent
+                    end
+                end
+                return 0 -- Fallback to no indentation if no previous indented line is found
+            end
+
+            -- Get the nearest indentation level
+            local indent = get_nearest_indent()
+
+            -- Prepare the block comment lines with indentation
+            local comment_lines = {
+                string.rep(" ", indent) .. "/**",
+                string.rep(" ", indent) .. " * ",
+                string.rep(" ", indent) .. " */",
+            }
+
+            -- Insert the block comment lines
+            vim.api.nvim_put(comment_lines, 'l', true, true)
+
+            -- After inserting, move the cursor to the second line (the ' * ' line)
+            vim.api.nvim_win_set_cursor(0, {current_row + 2, indent + 3})  -- Move to the second line after ' * '
+            vim.cmd('startinsert!') -- Enter insert mode
+        end, { buffer = true, noremap = true, silent = true })
+    end,
+})

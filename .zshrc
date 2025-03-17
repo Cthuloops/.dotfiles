@@ -10,6 +10,13 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 
+# Shader things
+export __GL_SHADER_DISK_CACHE=1
+export __GL_SHADER_DISK_CACHE_PATH=~/.nv/GLCache
+export __GL_SHADER_DISK_CACHE_SKIP_CLEANUP=1
+export VK_ICD_FILENAMES=/etc/vulkan/icd.d/radeon_icd.x86_64.json:/etc/vulkan/icd.d/radeon_icd.i686.json
+export VK_LAYER_PATH=/usr/share/vulkan/implicit_layer.d
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/

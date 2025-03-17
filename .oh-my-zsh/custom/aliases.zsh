@@ -5,6 +5,7 @@
 
 # customs
 alias nv='nordvpn'
+alias nvr='~/.bash_scripts/nv_restart.sh'
 alias py='python3'
 alias xr='exercism'
 

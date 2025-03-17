@@ -1,3 +1,1 @@
-require("hcoughlin.core")
-require("hcoughlin.lazy")
-
+require("config")

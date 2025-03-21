@@ -3,6 +3,7 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "BurntSushi/ripgrep",
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
   },
 
   config = function()
@@ -21,7 +22,12 @@ return {
           },
         },
       },
+      extensions = {
+        fzf = {},
+      }
     })
+
+    require("telescope").load_extension("fzf")
 
     -- set keymaps
     local set = vim.keymap.set

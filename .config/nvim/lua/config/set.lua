@@ -42,4 +42,12 @@ set("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>")
 set("n", "<leader>ut", vim.cmd.UndoTreeToggle, { desc = "toggle UndoTree" })
 
 
+-- Source current file
+set("n", "<leader><leader>x", "<cmd>source %<CR>", { desc = "Source current file" })
+
+
+-- Execute lua
+set("n", "<leader>x", ":.lua<CR>", { desc = "Execute whole file" })
+set("v", "<leader>x", ":lua<CR>", { desc = "Execute visual selection" })
+
 --set('n', '<space>q', vim.diagnostic.setloclist, { desc = "opens split w/ locations for diagnostic messages" })

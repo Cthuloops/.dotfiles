@@ -72,6 +72,25 @@ return {
       lspconfig.lua_ls.setup {}
       lspconfig.pyright.setup {}
       lspconfig.zls.setup {}
+      lspconfig.clangd.setup {}
+      lspconfig.rust_analyzer.setup {}
+      lspconfig.eslint.setup {
+        on_attach = function(client, bufnr)
+          -- Your existing on_attach code if any
+        end,
+        settings = {
+          -- Enable ESLint as a formatter if you want
+          ["eslint.format.enable"] = true,
+          -- Run ESLint when you save the file
+          ["eslint.codeActionsOnSave.mode"] = "all",
+          -- Run ESLint on these filetypes
+          ["eslint.validate"] = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+          -- Set working directory mode to auto
+          ["eslint.workingDirectories"] = { { mode = "auto" } }
+        },
+        -- Make sure ESLint can find your project root
+        root_dir = require("lspconfig").util.root_pattern(".eslintrc", ".eslintrc.js", ".eslintrc.json", "package.json", ".git")
+      }
     end,
   }
 }

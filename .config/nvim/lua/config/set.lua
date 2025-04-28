@@ -51,3 +51,52 @@ set("n", "<leader>x", ":.lua<CR>", { desc = "Execute whole file" })
 set("v", "<leader>x", ":lua<CR>", { desc = "Execute visual selection" })
 
 --set('n', '<space>q', vim.diagnostic.setloclist, { desc = "opens split w/ locations for diagnostic messages" })
+
+
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "c", "cpp", "javascript" },
+    callback = function()
+        vim.keymap.set('n', '<leader>bc', function()
+            local current_row = vim.api.nvim_win_get_cursor(0)[1]
+            local shiftwidth = vim.fn.shiftwidth()
+
+            local function get_context_indent()
+                local current_line = vim.api.nvim_buf_get_lines(0, current_row-1, current_row, true)[1]
+                local base_indent = vim.fn.indent(current_row)
+
+                -- If line ends with opening brace, increase indent
+                if current_line:match("{%s*$") then
+                    return base_indent + shiftwidth
+                end
+
+                -- Look for parent scope's indent
+                local scope_level = 0
+                for i = current_row, 1, -1 do
+                    local line = vim.api.nvim_buf_get_lines(0, i-1, i, true)[1]
+                    for _ in line:gmatch("}") do
+                        scope_level = scope_level - 1
+                    end
+                    for _ in line:gmatch("{") do
+                        scope_level = scope_level + 1
+                        if scope_level > 0 then
+                            return vim.fn.indent(i) + shiftwidth
+                        end
+                    end
+                end
+                return base_indent
+            end
+
+            local indent = get_context_indent()
+            local comment_lines = {
+                string.rep(" ", indent) .. "/**",
+                string.rep(" ", indent) .. " * ",
+                string.rep(" ", indent) .. " */"
+            }
+
+            vim.api.nvim_buf_set_lines(0, current_row, current_row, true, comment_lines)
+            vim.api.nvim_win_set_cursor(0, {current_row + 2, indent + 3})
+            vim.cmd('startinsert!')
+        end, { buffer = true, noremap = true, silent = true })
+    end,
+})

@@ -51,7 +51,9 @@ set("n", "<leader>x", ":.lua<CR>", { desc = "Execute whole file" })
 set("v", "<leader>x", ":lua<CR>", { desc = "Execute visual selection" })
 
 --set('n', '<space>q', vim.diagnostic.setloclist, { desc = "opens split w/ locations for diagnostic messages" })
-
+set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Show line diagnostic" })
+set("n", "grD", vim.lsp.buf.declaration, { desc = "Go to declaration" }) -- go to declaration
+set("n", "grd", vim.lsp.buf.definition, { desc = "Show LSP definition" }) -- show lsp definition
 
 
 vim.api.nvim_create_autocmd("FileType", {
